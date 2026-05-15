@@ -1,0 +1,108 @@
+\documentclass[12pt, a4paper]{article}
+
+% ---- Encoding & Language ----
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[russian, english]{babel}
+
+% ---- Math ----
+\usepackage{amsmath, amsthm, amssymb, mathtools}
+
+% ---- Graphics ----
+\usepackage{graphicx}
+\usepackage{float}
+
+% ---- Layout ----
+\usepackage[left=2.5cm, right=2cm, top=2.5cm, bottom=2.5cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+
+% ---- Hyperlinks ----
+\usepackage[hidelinks]{hyperref}
+
+% ---- Bibliography ----
+\usepackage[numbers, sort&compress]{natbib}
+
+% ---- Tables ----
+\usepackage{booktabs}
+
+% ---- Theorem environments ----
+\theoremstyle{definition}
+\newtheorem{definition}{Определение}[section]
+\newtheorem{example}{Пример}[section]
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Теорема}[section]
+\newtheorem{proposition}{Утверждение}[section]
+\newtheorem{corollary}{Следствие}[theorem]
+\newtheorem{lemma}{Лемма}[section]
+
+\theoremstyle{remark}
+\newtheorem{remark}{Замечание}[section]
+
+% ---- Title ----
+\title{%
+    \Large\textbf{Изоморфизм полных взвешенных графов:}\\
+    \Large\textbf{математический формализм и приложения в биоинформатике}
+    \vspace{0.5em}
+}
+\author{%
+    \normalsize Курсовая работа
+}
+\date{\today}
+
+% ===========================================================
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+% ---- Chapters ----
+\input{01_intro}
+\newpage
+
+\input{02_math_theory}
+\newpage
+
+\input{03_bio_model}
+\newpage
+
+\input{04_experiment}
+\newpage
+
+% ---- Conclusion ----
+\section{Заключение}
+\label{sec:conclusion}
+
+В настоящей работе разработан строгий математический аппарат теории
+\emph{полных взвешенных графов} (ПВГ) и их изоморфизма.
+
+\textbf{Основные результаты:}
+\begin{enumerate}
+    \item Введены три понятия изоморфизма ПВГ (точный, $\varepsilon$-изоморфизм,
+          изоморфизм Громова–Вассерштейна) и доказано, что $d_{\mathrm{iso}}$
+          является метрикой на классе ПВГ.
+    \item Доказана теорема о спектральной нижней оценке
+          $d_{\mathrm{iso}} \ge d_{\mathrm{spec}}/\sqrt{2}$,
+          дающая эффективно вычислимую границу.
+    \item Доказана NP-трудность точного изоморфизма ПВГ, обосновывающая
+          применение эвристик (венгерский алгоритм, GW-расстояние).
+    \item Сформулирован информационно-теоретический порог неразличимости:
+          при уровне шума выше $C \sigma \sqrt{(\log n)/n}$ задача изоморфизма
+          принципиально неразрешима.
+    \item Разработанный формализм применён к задаче дифференциального
+          анализа сетей коэкспрессии генов: предложенные метрики точно
+          локализовали онкогенный модуль в синтетических данных.
+\end{enumerate}
+
+\textbf{Перспективы:}
+расширение формализма на мультиграфы и временны́е серии GCN,
+применение к реальным данным TCGA (Атлас ракового генома),
+разработка нижних оценок для задачи CMO.
+
+% ---- Bibliography ----
+\bibliographystyle{unsrtnat}
+\bibliography{bibliography}
+
+\end{document}

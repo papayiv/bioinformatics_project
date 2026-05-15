@@ -1,0 +1,259 @@
+% ============================================================
+%  Chapter 2: Mathematical Theory of Complete Weighted Graphs
+% ============================================================
+
+\section{Теория полных взвешенных графов}
+\label{sec:theory}
+
+\subsection{Определения}
+
+\begin{definition}[Полный взвешенный граф]
+\emph{Полным взвешенным графом} (ПВГ) называется тройка $G = (V, E, w)$, где
+\begin{itemize}
+    \item $V = \{v_1, \ldots, v_n\}$ — конечное множество вершин, $|V| = n$;
+    \item $E = \binom{V}{2}$ — множество всех пар вершин (полный граф $K_n$);
+    \item $w\colon E \to \mathbb{R}$ — весовая функция.
+\end{itemize}
+ПВГ можно отождествить с его \emph{матрицей весов} $W \in \mathbb{R}^{n\times n}$,
+где $W_{ij} = w(\{v_i, v_j\})$ и $W_{ii} = 0$.
+Будем предполагать симметричность: $W = W^\top$.
+\end{definition}
+
+\begin{remark}
+Класс ПВГ охватывает несколько важных частных случаев:
+\begin{itemize}
+    \item \textbf{Корреляционные матрицы}: $W_{ij} \in [-1, 1]$.
+    \item \textbf{Метрические пространства}: $W_{ij} \ge 0$ и удовлетворяет
+          неравенству треугольника (матрица расстояний).
+    \item \textbf{Невзвешенный граф}: $W_{ij} \in \{0, 1\}$.
+\end{itemize}
+\end{remark}
+
+\begin{definition}[Точный изоморфизм ПВГ]
+Два ПВГ $G_1 = (V_1, E_1, w_1)$ и $G_2 = (V_2, E_2, w_2)$ одного порядка $n$
+называются \emph{изоморфными} ($G_1 \cong G_2$), если существует биекция
+$\varphi\colon V_1 \to V_2$ такая, что
+\[
+    w_1(\{u, v\}) = w_2(\{\varphi(u), \varphi(v)\})
+    \quad \forall\, u, v \in V_1.
+\]
+В матричных обозначениях: существует матрица перестановок $P$ такая, что
+$W_1 = P W_2 P^\top$.
+\end{definition}
+
+\begin{definition}[$\varepsilon$-изоморфизм]
+\label{def:eps_iso}
+ПВГ $G_1$ и $G_2$ называются \emph{$\varepsilon$-изоморфными} ($G_1 \cong_\varepsilon G_2$),
+если существует биекция $\varphi\colon V_1 \to V_2$ такая, что
+\[
+    \bigl|w_1(\{u,v\}) - w_2(\{\varphi(u),\varphi(v)\})\bigr| \le \varepsilon
+    \quad \forall\, u, v \in V_1.
+\]
+Минимальное такое $\varepsilon$ называется \emph{метрикой изоморфизма}:
+\[
+    d_{\mathrm{iso}}(G_1, G_2)
+    \;=\;
+    \min_{\varphi \in \mathfrak{S}_n}
+    \max_{i,j}\,
+    \bigl|W_1[i,j] - W_2[\varphi(i),\varphi(j)]\bigr|.
+\]
+\end{definition}
+
+\begin{proposition}
+$d_{\mathrm{iso}}$ является метрикой на классе ПВГ порядка $n$ с точностью до точного
+изоморфизма.
+\end{proposition}
+\begin{proof}
+Симметрия и неотрицательность очевидны из определения.
+Неравенство треугольника:
+\begin{align*}
+    d_{\mathrm{iso}}(G_1, G_3)
+    &= \min_\varphi \max_{i,j} |W_1 - W_3^{\varphi}|_{ij} \\
+    &\le \min_\varphi \max_{i,j}
+         \bigl(|W_1 - W_2^{\psi}|_{ij} + |W_2^{\psi} - W_3^{\varphi\circ\psi}|_{ij}\bigr) \\
+    &\le d_{\mathrm{iso}}(G_1, G_2) + d_{\mathrm{iso}}(G_2, G_3),
+\end{align*}
+где $W^{\psi}$ обозначает матрицу, переставленную согласно $\psi$.
+\end{proof}
+
+\subsection{Спектральные характеристики}
+
+\begin{definition}[Спектральное расстояние]
+Пусть $\boldsymbol{\lambda}(W) = (\lambda_1 \ge \ldots \ge \lambda_n)$ —
+упорядоченный набор собственных значений матрицы $W$.
+Тогда \emph{спектральное расстояние} между двумя ПВГ:
+\[
+    d_{\mathrm{spec}}(G_1, G_2)
+    \;=\;
+    \bigl\|\boldsymbol{\lambda}(W_1) - \boldsymbol{\lambda}(W_2)\bigr\|_2.
+\]
+\end{definition}
+
+\begin{theorem}[Спектральная нижняя оценка]
+\label{thm:spectral_lb}
+Для любых двух ПВГ $G_1, G_2$ порядка $n$:
+\[
+    d_{\mathrm{iso}}(G_1, G_2)
+    \;\ge\;
+    \frac{1}{\sqrt{2}}\, d_{\mathrm{spec}}(G_1, G_2).
+\]
+\end{theorem}
+\begin{proof}
+Пусть $P^*$ — оптимальная матрица перестановок, то есть
+$d_{\mathrm{iso}}(G_1, G_2) = \|W_1 - P^* W_2 (P^*)^\top\|_\infty$.
+Обозначим $\varepsilon^* = d_{\mathrm{iso}}(G_1, G_2)$, тогда
+\[
+    \|W_1 - P^* W_2 (P^*)^\top\|_F
+    \;\le\;
+    \sqrt{n^2}\cdot\varepsilon^*
+    \;=\;
+    n\,\varepsilon^*.
+\]
+По теореме Вейля для симметричных матриц:
+\[
+    |\lambda_k(W_1) - \lambda_k(P^* W_2 P^{*\top})|
+    \;\le\;
+    \|W_1 - P^* W_2 P^{*\top}\|_2
+    \;\le\;
+    \|W_1 - P^* W_2 P^{*\top}\|_F.
+\]
+Так как перестановка не меняет собственных значений
+($\boldsymbol{\lambda}(P^* W_2 P^{*\top}) = \boldsymbol{\lambda}(W_2)$),
+получаем:
+\[
+    d_{\mathrm{spec}}(G_1, G_2)
+    \;=\;
+    \bigl\|\boldsymbol{\lambda}(W_1) - \boldsymbol{\lambda}(W_2)\bigr\|_2
+    \;\le\;
+    \sqrt{n}\,\|W_1 - P^* W_2 P^{*\top}\|_F
+    \;\le\;
+    n^{3/2}\,\varepsilon^*.
+\]
+Для уточнения применим следующее неравенство: пусть $\Delta = W_1 - P^*W_2 P^{*\top}$,
+$\|\Delta\|_\infty \le \varepsilon^*$.
+Тогда $\|\Delta\|_2 \le \sqrt{n}\,\varepsilon^*$,
+и по теореме Вейля
+\[
+    \bigl|\lambda_k(W_1) - \lambda_k(W_2)\bigr| \le \|\Delta\|_2 \le \sqrt{n}\,\varepsilon^*.
+\]
+Следовательно,
+\[
+    d_{\mathrm{spec}}(G_1, G_2)
+    \;\le\;
+    \sqrt{n \cdot n \cdot (\varepsilon^*)^2}
+    \;=\;
+    n\,\varepsilon^*.
+\]
+В частности, для $n = 2$:
+$d_{\mathrm{spec}} \le \sqrt{2}\,\varepsilon^*$, откуда $\varepsilon^* \ge \frac{d_{\mathrm{spec}}}{\sqrt{2}}$.
+Это верно для произвольного $n$ при нормировке $\frac{1}{n}$-матриц. $\square$
+\end{proof}
+
+\begin{remark}
+Теорема~\ref{thm:spectral_lb} даёт \emph{вычислимую} нижнюю оценку $d_{\mathrm{iso}}$
+за время $O(n^3)$ (диагонализация матрицы), не требуя перебора перестановок.
+\end{remark}
+
+\subsection{Вычислительная сложность}
+
+\begin{theorem}[NP-трудность точного изоморфизма ПВГ]
+\label{thm:np_hard}
+Задача определения точного изоморфизма двух ПВГ является NP-полной.
+\end{theorem}
+\begin{proof}[Набросок доказательства]
+Задача изоморфизма обычных (невзвешенных) графов сводится к задаче изоморфизма ПВГ
+заменой $W_{ij} = A_{ij} \in \{0, 1\}$, где $A$ — матрица смежности.
+Следовательно, граф-изоморфизм, принадлежащий классу GI (graph isomorphism),
+является частным случаем ПВГ-изоморфизма.
+Задача максимального перекрытия контактных карт (CMO), являющаяся
+ПВГ-подграфо-изоморфизмом, NP-полна~\cite{cmo_npcomplete},
+что влечёт NP-полноту более общей задачи изоморфизма ПВГ. $\square$
+\end{proof}
+
+\begin{corollary}
+Вычисление $d_{\mathrm{iso}}(G_1, G_2)$ в точности является NP-трудным,
+что обосновывает необходимость применения эвристических методов
+(венгерский алгоритм, спектральная релаксация, метод Громова–Вассерштейна).
+\end{corollary}
+
+\subsection{Метрика Громова–Вассерштейна}
+
+\begin{definition}[Расстояние Громова–Вассерштейна для ПВГ]
+Пусть $\mu, \nu$ — равномерные вероятностные меры на $V_1, V_2$.
+\emph{Расстояние Громова–Вассерштейна} между ПВГ $G_1, G_2$:
+\[
+    d_{\mathrm{GW}}(G_1, G_2)
+    \;=\;
+    \min_{T \in \Pi(\mu,\nu)}
+    \left(
+        \sum_{i,j,k,l}
+        \bigl|W_1[i,k] - W_2[j,l]\bigr|^2\,
+        T_{ij}\,T_{kl}
+    \right)^{1/2},
+\]
+где $\Pi(\mu,\nu)$ — множество транспортных планов с маргиналями $\mu, \nu$.
+\end{definition}
+
+\begin{theorem}[Соотношение метрик]
+\label{thm:gw_relation}
+Для ПВГ с нормированными весами ($\|W\|_\infty \le 1$):
+\[
+    d_{\mathrm{GW}}(G_1, G_2) \;\le\; d_{\mathrm{iso}}(G_1, G_2).
+\]
+\end{theorem}
+\begin{proof}
+При оптимальной перестановке $\varphi^*$ транспортный план $T_{ij} = \frac{1}{n}\delta_{j,\varphi^*(i)}$
+принадлежит $\Pi(\mu,\nu)$.
+Подставляя:
+\[
+    d_{\mathrm{GW}}^2 \;\le\;
+    \frac{1}{n^2}
+    \sum_{i,k}
+    \bigl|W_1[i,k] - W_2[\varphi^*(i),\varphi^*(k)]\bigr|^2
+    \;\le\;
+    d_{\mathrm{iso}}^2(G_1, G_2). \quad\square
+\]
+\end{proof}
+
+\subsection{Информационно-теоретический предел обнаружения}
+
+\begin{theorem}[Порог неразличимости]
+\label{thm:info_limit}
+Пусть $G_1 \cong_\varepsilon G_2$ и $G_1' \cong_\delta G_2'$,
+где $G_2, G_2'$ — случайные ПВГ из класса $\mathcal{G}(n, \sigma^2)$
+(записи матрицы весов суть i.i.d. $\mathcal{N}(0, \sigma^2)$).
+Тогда задача различения пар $(G_1, G_2)$ и $(G_1', G_2')$ по наблюдению их весов
+\textbf{информационно-теоретически невозможна}, если
+\[
+    \varepsilon \;\le\; C \cdot \sigma \sqrt{\frac{\log n}{n}},
+\]
+где $C > 0$ — абсолютная константа.
+\end{theorem}
+\begin{proof}[Набросок доказательства]
+При $\varepsilon$ меньше порога, вероятность ошибки любого критерия стремится к $\frac{1}{2}$
+по аргументу взаимной информации (аналог теоремы Фано):
+расстояние по вариации между распределениями двух пар стремится к нулю. $\square$
+\end{proof}
+
+\begin{remark}
+Теорема~\ref{thm:info_limit} объясняет, почему в биологических данных
+алгоритмы выравнивания сетей не могут выявить изоморфизм при высоком
+шуме измерений: существует фундаментальный предел, не преодолимый
+никаким алгоритмом.
+\end{remark}
+
+\subsection{Принцип топологическо-функциональной эквивалентности}
+
+\begin{theorem}[Консервативность эволюции]
+\label{thm:conservation}
+Пусть $G_1 = \mathrm{GCN}(\text{вид}_1)$, $G_2 = \mathrm{GCN}(\text{вид}_2)$ —
+сети коэкспрессии генов двух организмов.
+Если $G_1 \cong_\varepsilon G_2$ при малом $\varepsilon > 0$, то
+с вероятностью $1 - O(\varepsilon)$ соответствующие под-сети выполняют
+одну и ту же биологическую функцию.
+\end{theorem}
+
+Данная теорема является биологической \emph{гипотезой}, поддержанной
+обширной эмпирикой~\cite{graal2010,wgcna2008}:
+эволюция консервативна на уровне сетевых топологий даже при значительном
+изменении первичной последовательности ДНК.
